@@ -1,14 +1,12 @@
 package com.example.design;
 
-public class AliPayHandler extends AbstractPayHandler {
+import org.springframework.stereotype.Component;
 
-    @Override
-    public void pay() {
-        System.out.println("ali pay");
-    }
+@Component
+public class AliPayHandler extends AbstractPayHandler{
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        PayFactory.register("ali",new AliPayHandler());
+        PayFactory.register("ali",this);
     }
 }

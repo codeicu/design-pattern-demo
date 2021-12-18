@@ -1,21 +1,27 @@
 package com.example.design;
 
-import org.springframework.util.StringUtils;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PayFactory {
-    private static Map<String, AbstractPayHandler> strategyMap = new ConcurrentHashMap<>();
+    private static Map<String, AbstractPayHandler> map = new ConcurrentHashMap();
 
-    public static AbstractPayHandler getInvokeStrategy(String str) {
-        return strategyMap.get(str);
+    public static AbstractPayHandler getPayHandler(String payType) {
+        AbstractPayHandler abstractPayHandler = map.get(payType);
+        if (abstractPayHandler == null) {
+            throw new RuntimeException();
+        }
+        return abstractPayHandler;
     }
 
-    public static void register(String str, AbstractPayHandler handler) {
-        if (StringUtils.hasText(str) || null == handler) {
-            return;
+    public static void register(String payType, AbstractPayHandler payHandler) {
+        checkArgs(payType, payHandler);
+        map.put(payType, payHandler);
+    }
+
+    private static void checkArgs(String payType, AbstractPayHandler payHandler) {
+        if (payHandler == null) {
+            throw new RuntimeException();
         }
-        strategyMap.put(str, handler);
     }
 }

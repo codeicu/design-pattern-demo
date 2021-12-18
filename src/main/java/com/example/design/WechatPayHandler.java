@@ -1,14 +1,17 @@
 package com.example.design;
 
-public class WechatPayHandler extends AbstractPayHandler {
+import org.springframework.stereotype.Component;
+
+@Component
+public class WechatPayHandler extends AbstractPayHandler{
 
     @Override
-    public void pay() {
+    void execute() {
         System.out.println("wechat pay");
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        PayFactory.register("wechat",new WechatPayHandler());
+        PayFactory.register("wechat",this);
     }
 }
